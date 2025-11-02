@@ -2,23 +2,15 @@ LDD_VERSION = '2f129879ee715dfeb368095a2549c4668fcd99db'
 LDD_SITE = 'git@github.com:cu-ecen-aeld/assignment-7-andy314dn.git'
 LDD_SITE_METHOD = git
 
+LDD_LICENSE = GPLv2
+LDD_LICENSE_FILES = LICENSE
+LDD_MODULE_SUBDIRS = misc-modules scull
+
 # build the misc-modules and scull kernel modules
-define LDD_BUILD_CMDS
-	$(TARGET_MAKE_ENV) $(MAKE) -C $(@D)/misc-modules \
-        CROSS_COMPILE="$(TARGET_CROSS)" ARCH="$(KERNEL_ARCH)" \
-		EXTRA_CFLAGS="-I$(@D)/include" \
-        -C $(LINUX_DIR) M=$(@D)/misc-modules
-    $(TARGET_MAKE_ENV) $(MAKE) -C $(@D)/scull \
-        CROSS_COMPILE="$(TARGET_CROSS)" ARCH="$(KERNEL_ARCH)" \
-		EXTRA_CFLAGS="-I$(@D)/include" \
-        -C $(LINUX_DIR) M=$(@D)/scull
-endef
+# the build is automatically done by the kernel-module infrastructure
 
 # perform installation
-define LDD_INSTALL_TARGET_CMDS
-	$(INSTALL) -m 0755 $(@D)/misc-modules/hello.ko   $(TARGET_DIR)/lib/modules/$(LINUX_VERSION)
-	$(INSTALL) -m 0755 $(@D)/misc-modules/faulty.ko  $(TARGET_DIR)/lib/modules/$(LINUX_VERSION)
-    $(INSTALL) -m 0755 $(@D)/scull/scull.ko          $(TARGET_DIR)/lib/modules/$(LINUX_VERSION)
-endef
+# the installation is automatically done by the kernel-module infrastructure
 
+$(eval $(kernel-module))
 $(eval $(generic-package))
