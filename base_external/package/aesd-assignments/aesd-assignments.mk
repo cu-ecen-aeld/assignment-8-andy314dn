@@ -6,13 +6,17 @@
 ##############################################################
 
 # Reference your assignment 3 git contents
-AESD_ASSIGNMENTS_VERSION = 'd0ae0a427a66c67a9675720da43bffbe6d30fe55'
+AESD_ASSIGNMENTS_VERSION = '37c50be188df591f2a10a981273470e5f095dbb6'
 # Note: Be sure to reference the *ssh* repository URL here (not https) to work properly
 # with ssh keys and the automated build/test system.
 # Your site should start with git@github.com:
 AESD_ASSIGNMENTS_SITE = 'git@github.com:cu-ecen-aeld/assignments-3-and-later-andy314dn.git'
 AESD_ASSIGNMENTS_SITE_METHOD = git
 AESD_ASSIGNMENTS_GIT_SUBMODULES = YES
+
+AESD_ASSIGNMENTS_LICENSE = GPLv2
+AESD_ASSIGNMENTS_LICENSE_FILES = LICENSE
+AESD_ASSIGNMENTS_MODULE_SUBDIRS = aesd-char-driver
 # # In case we want to refer to Assignment 3 locally
 # AESD_ASSIGNMENTS_OVERRIDE_SRCDIR ?= <path_to_>/assignments-3-and-later-andy314dn
 # at Buildroot directory:
@@ -35,8 +39,10 @@ define AESD_ASSIGNMENTS_INSTALL_TARGET_CMDS
 	$(INSTALL) -m 0755 $(@D)/finder-app/finder-test.sh $(TARGET_DIR)/usr/bin
 	$(INSTALL) -m 0755 $(@D)/finder-app/finder.sh      $(TARGET_DIR)/usr/bin
 	$(INSTALL) -m 0755 $(@D)/finder-app/writer         $(TARGET_DIR)/usr/bin
+	$(INSTALL) -m 0755 $(@D)/aesd-char-driver/driver-load.sh  $(TARGET_DIR)/usr/bin
 	$(INSTALL) -m 0755 $(@D)/server/aesdsocket         $(TARGET_DIR)/usr/bin
 	$(INSTALL) -m 0755 $(@D)/server/aesdsocket-start-stop $(TARGET_DIR)/etc/init.d/S99aesdsocket
 endef
 
+$(eval $(kernel-module))
 $(eval $(generic-package))
